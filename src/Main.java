@@ -2,22 +2,28 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner inTastiera = new Scanner(System.in);
-        System.out.println("inserisci battito ali: ");
-        int battiti = inTastiera.nextInt();
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.print("Inserisci il numero di battiti d'ali del drago: ");
+        int battiti = scanner.nextInt();
+        scanner.close();
 
-        Thread drago1 = new Thread(
-                new Drago("Argo", battiti));
-        drago1.start();
+        Drago dragoObj = new Drago("Smaug", battiti);
+        Thread threadDrago = new Thread(dragoObj);
+        threadDrago.start();
 
-        for (int i = 0; i <= 5; i++) {
+        Cacciatore cacciatore = new Cacciatore("Geralt");
+        cacciatore.colpisciDrago(threadDrago);
+
+        for (int i = 1; i <= battiti; i++) {
+            System.out.println("Main: sto osservando il drago... (ciclo " + i + " di " + battiti + ")");
             try {
-                Thread.sleep(5020);
+                Thread.sleep(800);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                System.out.println("Main interrotto.");
             }
-            System.out.println("main continua a fare cose... i=" + i);
         }
+
+        System.out.println("Main completato.");
     }
 }
